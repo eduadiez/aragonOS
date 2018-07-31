@@ -29,6 +29,6 @@ contract KernelConstants {
 
 
 contract KernelStorage is KernelConstants, UnstructuredStorage {
-    mapping (bytes32 => address) public apps;
+    bytes32 public constant appsPosition = keccak256("mapping.apps");
     bytes32 public constant recoveryVaultIdPosition = keccak256("bytes32.recoveryVaultId");
 }

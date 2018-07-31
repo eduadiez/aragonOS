@@ -142,7 +142,7 @@ contract Kernel is IKernel, KernelStorage, Initializable, IsContract, AppProxyFa
     * @return Address of the app
     */
     function getApp(bytes32 _id) public view returns (address) {
-        return apps[_id];
+        return getStorageMappingBytes32Address(appsPosition, _id);
     }
 
     /**
@@ -150,7 +150,7 @@ contract Kernel is IKernel, KernelStorage, Initializable, IsContract, AppProxyFa
     * @return Address of the Vault
     */
     function getRecoveryVault() public view returns (address) {
-        return apps[getStorageBytes32(recoveryVaultIdPosition)];
+        return getStorageMappingBytes32Address(appsPosition, getStorageBytes32(recoveryVaultIdPosition));
     }
 
     /**
@@ -176,7 +176,7 @@ contract Kernel is IKernel, KernelStorage, Initializable, IsContract, AppProxyFa
     function _setApp(bytes32 _namespace, bytes32 _name, address _app) internal returns (bytes32 id) {
         require(isContract(_app));
         id = keccak256(_namespace, _name);
-        apps[id] = _app;
+        setStorageMappingBytes32Address(appsPosition, id, _app);
         SetApp(_namespace, _name, id, _app);
     }
 
@@ -189,7 +189,7 @@ contract Kernel is IKernel, KernelStorage, Initializable, IsContract, AppProxyFa
         if (app != address(0)) {
             require(app == _app);
         } else {
-            apps[id] = _app;
+            setStorageMappingBytes32Address(appsPosition, id, _app);
             SetApp(_namespace, _name, id, _app);
         }
     }

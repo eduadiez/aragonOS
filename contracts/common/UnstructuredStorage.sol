@@ -20,6 +20,10 @@ contract UnstructuredStorage {
         assembly { sstore(position, data) }
     }
 
+    function setStorageMappingBytes32Address(bytes32 position, bytes32 id, address data) internal {
+        setStorageAddress(keccak256(position, id), data);
+    }
+
     function getStorageAddress(bytes32 position) public view returns (address data) {
         assembly { data := sload(position) }
     }
@@ -30,5 +34,9 @@ contract UnstructuredStorage {
 
     function getStorageUint256(bytes32 position) public view returns (uint256 data) {
         assembly { data := sload(position) }
+    }
+
+    function getStorageMappingBytes32Address(bytes32 position, bytes32 id) public view returns (address data) {
+        return getStorageAddress(keccak256(position, id));
     }
 }

@@ -12,7 +12,7 @@ contract KernelProxy is KernelStorage, DepositableDelegateProxy {
     * @param _kernelImpl Address of the contract used as implementation for kernel
     */
     function KernelProxy(IKernel _kernelImpl) public {
-        apps[KERNEL_APP] = _kernelImpl;
+        setStorageMappingBytes32Address(appsPosition, KERNEL_APP, address(_kernelImpl));
     }
 
     /**
@@ -26,7 +26,7 @@ contract KernelProxy is KernelStorage, DepositableDelegateProxy {
     * @dev ERC897, the address the proxy would delegate calls to
     */
     function implementation() public view returns (address) {
-        return apps[KERNEL_APP];
+        return getStorageMappingBytes32Address(appsPosition, KERNEL_APP);
     }
 
 }
